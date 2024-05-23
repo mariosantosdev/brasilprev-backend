@@ -23,6 +23,7 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "cpf-cnpj-validator": "^1.0.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },
@@ -57,7 +58,7 @@
     ],
     "rootDir": "src",
     "moduleNameMapper": {
-        "@/(.*)": "<rootDir>/$1"
+      "@/(.*)": "<rootDir>/$1"
     },
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
