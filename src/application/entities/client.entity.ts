@@ -29,6 +29,23 @@ export class ClientEntity extends BaseEntity<ClientProps> {
     return this.props.birthDate;
   }
 
+  get age(): number {
+    const today = new Date();
+    const birthdate = this.props.birthDate;
+    const age = today.getUTCFullYear() - birthdate.getUTCFullYear();
+
+    const monthBirthdayIsFuture = today.getUTCMonth() < birthdate.getUTCMonth();
+    if (monthBirthdayIsFuture) return age - 1;
+
+    const monthBirthdayIsPast = today.getUTCMonth() > birthdate.getUTCMonth();
+    if (monthBirthdayIsPast) return age;
+
+    const dayBirthdayIsFuture = today.getUTCDate() < birthdate.getUTCDate();
+    if (dayBirthdayIsFuture) return age - 1;
+
+    return age;
+  }
+
   get gender(): string {
     return this.props.gender;
   }
