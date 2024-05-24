@@ -5,6 +5,7 @@ import { RegisterClientService } from './application/services/register-client/re
 import { RegisterProductService } from './application/services/register-product/register-product.service';
 import { HirePlanService } from './application/services/hire-plan/hire-plan.service';
 import { InvestExtraContributionService } from './application/services/invest-extra-contribution/invest-extra-contribution.service';
+import { WithdrawContributionService } from './application/services/withdraw-contribution/withdraw-contribution.service';
 
 @Module({
   imports: [],
@@ -15,6 +16,7 @@ import { InvestExtraContributionService } from './application/services/invest-ex
     RegisterProductService,
     HirePlanService,
     InvestExtraContributionService,
+    WithdrawContributionService,
   ],
 })
 export class AppModule {}
