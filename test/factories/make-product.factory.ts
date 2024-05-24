@@ -20,10 +20,10 @@ export function makeProductFactory(
       faker.number.float({ fractionDigits: 2 }),
 
     minAgeForContract:
-      overrides?.minAgeForContract ?? faker.number.int({ max: 21 }),
+      overrides?.minAgeForContract ?? faker.number.int({ min: 18, max: 27 }),
 
     minAgeForBenefit:
-      overrides?.minAgeForBenefit ?? faker.number.int({ min: 21 }),
+      overrides?.minAgeForBenefit ?? faker.number.int({ min: 27 }),
 
     firstWithdrawalPeriod:
       overrides?.firstWithdrawalPeriod ?? faker.number.int(),

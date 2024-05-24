@@ -17,7 +17,7 @@ describe('ProductEntity', () => {
   it('should valid properties entries', () => {
     const result = ProductEntity.validate(baseProps);
 
-    expect(result).toBeTruthy();
+    expect(result.isRight()).toBeTruthy();
   });
 
   it('should not valid properties if minAgeForBenefit is less than minAgeForContract', () => {
@@ -27,7 +27,7 @@ describe('ProductEntity', () => {
       minAgeForBenefit: 18,
     });
 
-    expect(result).toBeFalsy();
+    expect(result.isRight()).toBeFalsy();
   });
 
   it('should not valid properties if endDateToBuy is in the past', () => {
@@ -36,6 +36,6 @@ describe('ProductEntity', () => {
       endDateToBuy: faker.date.past(),
     });
 
-    expect(result).toBeFalsy();
+    expect(result.isRight()).toBeFalsy();
   });
 });

@@ -51,20 +51,29 @@ export class ProductEntity extends BaseEntity<ProductProps> {
     return this.props.withdrawalPeriod;
   }
 
-  static validate(props: ProductProps) {
-    if (props.minAgeForBenefit < props.minAgeForContract) return false;
-    if (props.endDateToBuy.getTime() < Date.now()) return false;
+  static validate(props: ProductProps): Either<DomainException, true> {
+    if (props.minAgeForContract > props.minAgeForBenefit) {
+      return left(
+        new DomainException(
+          'Minimum age for benefit must be greater than minimum age for contract',
+        ),
+      );
+    }
 
-    return true;
+    if (props.endDateToBuy.getTime() < Date.now()) {
+      return left(new DomainException('Product is not available'));
+    }
+
+    return right(true);
   }
 
   static create(
     props: ProductProps,
     id?: string,
   ): Either<DomainException, ProductEntity> {
-    if (!ProductEntity.validate(props)) {
-      return left(new DomainException('Invalid product'));
-    }
+    const isValid = ProductEntity.validate(props);
+
+    if (isValid.isLeft()) return left(isValid.value);
 
     return right(new ProductEntity(props, id));
   }
