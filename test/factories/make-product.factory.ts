@@ -23,7 +23,7 @@ export function makeProductFactory(
       overrides?.minAgeForContract ?? faker.number.int({ min: 18, max: 27 }),
 
     minAgeForBenefit:
-      overrides?.minAgeForBenefit ?? faker.number.int({ min: 27 }),
+      overrides?.minAgeForBenefit ?? faker.number.int({ min: 27, max: 100 }),
 
     firstWithdrawalPeriod:
       overrides?.firstWithdrawalPeriod ?? faker.number.int(),

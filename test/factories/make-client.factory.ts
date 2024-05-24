@@ -11,7 +11,7 @@ export function makeClientFactory(overrides?: OverridesParams): ClientEntity {
 
       cpf: overrides?.cpf ?? cpf.generate(),
 
-      birthDate: overrides?.birthDate ?? faker.date.past(),
+      birthDate: overrides?.birthDate ?? faker.date.birthdate(),
 
       email: overrides?.email ?? faker.internet.email(),
 
