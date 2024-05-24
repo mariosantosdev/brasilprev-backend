@@ -51,7 +51,10 @@ describe('HirePlanService', () => {
 
     await clientRepository.create(client);
 
-    const product = makeProductFactory();
+    const product = makeProductFactory({
+      minAgeForContract: client.age,
+      minAgeForBenefit: client.age + 5,
+    });
 
     await productRepository.create(product);
 
@@ -60,7 +63,7 @@ describe('HirePlanService', () => {
       productId: product.id,
       contribution: product.minFirstContribution,
       hiredAt: new Date(),
-      ageForRetirement: product.minAgeForBenefit + 5,
+      ageForRetirement: client.age + 10,
     });
 
     expect(result.isRight()).toBeTruthy();
@@ -75,7 +78,10 @@ describe('HirePlanService', () => {
 
     await clientRepository.create(client);
 
-    const product = makeProductFactory();
+    const product = makeProductFactory({
+      minAgeForContract: client.age,
+      minAgeForBenefit: client.age + 5,
+    });
 
     await productRepository.create(product);
 
@@ -90,7 +96,7 @@ describe('HirePlanService', () => {
       productId: product.id,
       contribution: product.minFirstContribution,
       hiredAt: new Date(),
-      ageForRetirement: product.minAgeForBenefit + 5,
+      ageForRetirement: client.age + 10,
     });
 
     expect(result.isLeft()).toBeTruthy();

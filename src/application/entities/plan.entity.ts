@@ -131,7 +131,7 @@ export class PlanEntity extends BaseEntity<PlanProps> {
       const minAge = props.product.minAgeForContract;
       return left(
         new DomainException(
-          `Invalid age for contract. Minimum age is ${minAge}`,
+          `Invalid age for contract. Minimum age is ${minAge} this client is ${props.client.age}`,
         ),
       );
     }
@@ -157,14 +157,14 @@ export class PlanEntity extends BaseEntity<PlanProps> {
     id?: string,
   ): Either<DomainException, PlanEntity> {
     const data: PlanProps = {
-      balance: props.firstContribution,
       lastWithdrawal: null,
       ...props,
+      balance: props.firstContribution,
     };
 
-    if (!PlanEntity.validate(data)) {
-      return left(new DomainException('Invalid plan'));
-    }
+    const isValid = PlanEntity.validate(data);
+
+    if (isValid.isLeft()) return left(isValid.value);
 
     return right(new PlanEntity(data, id));
   }
