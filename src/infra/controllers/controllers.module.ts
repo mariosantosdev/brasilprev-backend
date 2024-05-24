@@ -7,10 +7,15 @@ import { HirePlanService } from '@/application/services/hire-plan/hire-plan.serv
 import { InvestExtraContributionService } from '@/application/services/invest-extra-contribution/invest-extra-contribution.service';
 import { WithdrawContributionService } from '@/application/services/withdraw-contribution/withdraw-contribution.service';
 import { RegisterProductController } from './register-product/register-product.controller';
+import { HirePlanController } from './hire-plan/hire-plan.controller';
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [RegisterClientController, RegisterProductController],
+  controllers: [
+    RegisterClientController,
+    RegisterProductController,
+    HirePlanController,
+  ],
   providers: [
     HirePlanService,
     InvestExtraContributionService,
