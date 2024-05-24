@@ -6,4 +6,9 @@ export abstract class PlanRepository extends BaseRepository<PlanEntity> {
     productId: string,
     clientId: string,
   ): Promise<PlanEntity | null>;
+
+  abstract findByIdAndClientId(
+    id: string,
+    clientId: string,
+  ): Promise<PlanEntity | null>;
 }

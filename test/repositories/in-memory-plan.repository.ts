@@ -22,6 +22,15 @@ export class InMemoryPlanRepository extends PlanRepository {
     );
   }
 
+  async findByIdAndClientId(
+    id: string,
+    clientId: string,
+  ): Promise<PlanEntity | null> {
+    return this.items.find(
+      (plan) => plan.id === id && plan.clientId === clientId,
+    );
+  }
+
   async update(plan: PlanEntity): Promise<PlanEntity> {
     const index = this.items.findIndex((item) => item.id === plan.id);
     this.items[index] = plan;
