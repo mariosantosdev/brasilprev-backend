@@ -9,6 +9,7 @@ import { WithdrawContributionService } from '@/application/services/withdraw-con
 import { RegisterProductController } from './register-product/register-product.controller';
 import { HirePlanController } from './hire-plan/hire-plan.controller';
 import { InvestExtraContributionController } from './invest-extra-contribution/invest-extra-contribution.controller';
+import { WithdrawContributionController } from './withdraw-contribution/withdraw-contribution.controller';
 
 @Module({
   imports: [DatabaseModule],
@@ -17,6 +18,7 @@ import { InvestExtraContributionController } from './invest-extra-contribution/i
     RegisterProductController,
     HirePlanController,
     InvestExtraContributionController,
+    WithdrawContributionController,
   ],
   providers: [
     HirePlanService,
