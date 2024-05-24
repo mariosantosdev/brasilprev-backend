@@ -2,6 +2,7 @@ import { makeProductFactory } from '@root/test/factories/make-product.factory';
 import { makeClientFactory } from '@root/test/factories/make-client.factory';
 import { PlanEntity } from './plan.entity';
 import { faker } from '@faker-js/faker';
+import { BadRequestException } from '../exceptions/bad-request.exception';
 
 describe('PlanEntity', () => {
   const product = makeProductFactory();
@@ -120,5 +121,59 @@ describe('PlanEntity', () => {
       );
 
     expect(plan.balance).toBe(0);
+  });
+
+  it('should withdraw a value', () => {
+    const planOrError = PlanEntity.create(basePlan);
+
+    const plan = planOrError.value as PlanEntity;
+
+    plan.deposit(100);
+
+    const withdrawn = plan.withdraw(50);
+
+    expect(withdrawn.isRight()).toBeTruthy();
+
+    expect(plan.balance).toBe(50);
+  });
+
+  it('should not withdraw more than balance', () => {
+    const planOrError = PlanEntity.create(basePlan);
+
+    const plan = planOrError.value as PlanEntity;
+
+    plan.deposit(100);
+
+    const withdrawn = plan.withdraw(200);
+
+    expect(withdrawn.isLeft()).toBeTruthy();
+
+    expect(withdrawn.value).toBeInstanceOf(BadRequestException);
+
+    if (withdrawn.isLeft()) {
+      expect(withdrawn.value.message).toContain('Insufficient balance.');
+    }
+
+    expect(plan.balance).toBe(100);
+  });
+
+  it('should not withdraw before waiting period', () => {
+    const planOrError = PlanEntity.create(basePlan);
+
+    const plan = planOrError.value as PlanEntity;
+
+    plan.deposit(100);
+
+    plan.withdraw(50);
+
+    const withdrawn = plan.withdraw(50);
+
+    expect(withdrawn.isLeft()).toBeTruthy();
+
+    if (withdrawn.isLeft()) {
+      expect(withdrawn.value.message).toContain('You must wait');
+    }
+
+    expect(plan.balance).toBe(50);
   });
 });

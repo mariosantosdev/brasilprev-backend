@@ -4,6 +4,10 @@ import { DomainException } from '@/commons/interfaces/domain.exception';
 import { ProductEntity } from './product.entity';
 import { ClientEntity } from './client.entity';
 import { BadRequestException } from '../exceptions/bad-request.exception';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 interface PlanProps {
   productId: string;
@@ -31,6 +35,34 @@ export class PlanEntity extends BaseEntity<PlanProps> {
     }
 
     this.props.balance += amount;
+
+    return right(true);
+  }
+
+  public withdraw(amount: number): Either<DomainException, true> {
+    if (amount > this.balance) {
+      return left(new BadRequestException('Insufficient balance.'));
+    }
+
+    const waitingPeriodInDays = this.product.withdrawalPeriod;
+
+    const lastWithdrawalDate = dayjs(this.lastWithdrawal).utc();
+    const daysSinceLastWithdrawal = dayjs()
+      .utc()
+      .diff(lastWithdrawalDate, 'days');
+
+    if (daysSinceLastWithdrawal < waitingPeriodInDays) {
+      const restDays = waitingPeriodInDays - daysSinceLastWithdrawal;
+
+      return left(
+        new BadRequestException(
+          `You must wait ${restDays} days to withdraw again.`,
+        ),
+      );
+    }
+
+    this.props.balance -= amount;
+    this.props.lastWithdrawal = new Date();
 
     return right(true);
   }
