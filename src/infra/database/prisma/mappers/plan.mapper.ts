@@ -40,6 +40,7 @@ export class PlanMapper {
         ...raw,
         product: productOrError.value,
         client: clientOrError.value,
+        lastWithdrawal: raw.lastWithdrawalAt,
       },
       raw.id,
     );

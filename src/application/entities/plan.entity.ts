@@ -6,6 +6,7 @@ import { ClientEntity } from './client.entity';
 import { BadRequestException } from '../exceptions/bad-request.exception';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { Optional } from '@/commons/types/optional';
 
 dayjs.extend(utc);
 
@@ -21,9 +22,7 @@ interface PlanProps {
   balance: number;
 }
 
-type CreatePlanProps = Omit<PlanProps, 'balance' | 'lastWithdrawal'> & {
-  balance?: number;
-};
+type CreatePlanProps = Optional<PlanProps, 'balance' | 'lastWithdrawal'>;
 
 export class PlanEntity extends BaseEntity<PlanProps> {
   public deposit(amount: number): Either<DomainException, true> {
@@ -161,8 +160,8 @@ export class PlanEntity extends BaseEntity<PlanProps> {
     const isNewPlan = !Boolean(id);
 
     const data: PlanProps = {
-      lastWithdrawal: null,
       ...props,
+      lastWithdrawal: isNewPlan ? null : props.lastWithdrawal ?? null,
       balance: isNewPlan ? props.firstContribution : props.balance ?? 0,
     };
 
