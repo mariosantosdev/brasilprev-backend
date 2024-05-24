@@ -5,9 +5,9 @@ describe('ProductEntity', () => {
   const baseProps = {
     name: faker.commerce.productName(),
     susep: faker.string.uuid(),
-    endDateToBuy: faker.date.future(),
-    minFirstContribuition: faker.number.float({ fractionDigits: 2 }),
-    minExtraContribuition: faker.number.float({ fractionDigits: 2 }),
+    endDateToHire: faker.date.future(),
+    minFirstContribution: faker.number.float({ fractionDigits: 2 }),
+    minExtraContribution: faker.number.float({ fractionDigits: 2 }),
     minAgeForContract: faker.number.int({ max: 21 }),
     minAgeForBenefit: faker.number.int({ min: 21 }),
     firstWithdrawalPeriod: faker.number.int(),
@@ -30,10 +30,10 @@ describe('ProductEntity', () => {
     expect(result.isRight()).toBeFalsy();
   });
 
-  it('should not valid properties if endDateToBuy is in the past', () => {
+  it('should not valid properties if endDateToHire is in the past', () => {
     const result = ProductEntity.validate({
       ...baseProps,
-      endDateToBuy: faker.date.past(),
+      endDateToHire: faker.date.past(),
     });
 
     expect(result.isRight()).toBeFalsy();

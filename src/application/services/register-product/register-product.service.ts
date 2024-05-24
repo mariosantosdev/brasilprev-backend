@@ -8,9 +8,9 @@ import { Injectable } from '@nestjs/common';
 interface RequestParams {
   name: string;
   susep: string;
-  endDateToBuy: Date;
-  minFirstContribuition: number;
-  minExtraContribuition: number;
+  endDateToHire: Date;
+  minFirstContribution: number;
+  minExtraContribution: number;
   minAgeForContract: number;
   minAgeForBenefit: number;
   firstWithdrawalPeriod: number;

@@ -56,8 +56,8 @@ export class PlanEntity extends BaseEntity<PlanProps> {
   }
 
   static validate(props: PlanProps): Either<DomainException, true> {
-    if (props.firstContribution < props.product.minFirstContribuition) {
-      const minFirstContribution = props.product.minFirstContribuition;
+    if (props.firstContribution < props.product.minFirstContribution) {
+      const minFirstContribution = props.product.minFirstContribution;
       return left(
         new DomainException(
           `Invalid first contribution. Minimum first contribution is ${minFirstContribution}`,
@@ -83,7 +83,7 @@ export class PlanEntity extends BaseEntity<PlanProps> {
       );
     }
 
-    if (props.hiredAt.getTime() > props.product.endDateToBuy.getTime()) {
+    if (props.hiredAt.getTime() > props.product.endDateToHire.getTime()) {
       return left(new DomainException('Product is not available'));
     }
 

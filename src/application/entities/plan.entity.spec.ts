@@ -19,7 +19,7 @@ describe('PlanEntity', () => {
     client: client,
     firstContribution: faker.number.float({
       fractionDigits: 2,
-      min: product.minFirstContribuition,
+      min: product.minFirstContribution,
     }),
     hiredAt: new Date(),
     ageForRetirement: faker.number.int({ min: product.minAgeForBenefit }),
@@ -36,7 +36,7 @@ describe('PlanEntity', () => {
   it('should not validate if first contribution is less than minimum', () => {
     const result = PlanEntity.validate({
       ...basePlan,
-      firstContribution: product.minFirstContribuition - 1,
+      firstContribution: product.minFirstContribution - 1,
     });
 
     expect(result.isLeft()).toBeTruthy();
@@ -80,13 +80,13 @@ describe('PlanEntity', () => {
 
     const result = PlanEntity.validate({
       ...basePlan,
-      firstContribution: localProduct.minFirstContribuition,
+      firstContribution: localProduct.minFirstContribution,
       product: localProduct,
       productId: localProduct.id,
       client: localClient,
       clientId: localClient.id,
       hiredAt: faker.date.future({
-        years: localProduct.endDateToBuy.getFullYear() + 1,
+        years: localProduct.endDateToHire.getFullYear() + 1,
       }),
     });
 

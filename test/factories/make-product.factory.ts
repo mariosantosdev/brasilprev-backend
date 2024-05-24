@@ -9,14 +9,14 @@ export function makeProductFactory(
 
     susep: overrides?.susep ?? faker.string.uuid(),
 
-    endDateToBuy: overrides?.endDateToBuy ?? faker.date.future(),
+    endDateToHire: overrides?.endDateToHire ?? faker.date.future(),
 
-    minFirstContribuition:
-      overrides?.minFirstContribuition ??
+    minFirstContribution:
+      overrides?.minFirstContribution ??
       faker.number.float({ fractionDigits: 2 }),
 
-    minExtraContribuition:
-      overrides?.minExtraContribuition ??
+    minExtraContribution:
+      overrides?.minExtraContribution ??
       faker.number.float({ fractionDigits: 2 }),
 
     minAgeForContract:

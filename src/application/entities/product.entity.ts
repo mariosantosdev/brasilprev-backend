@@ -5,9 +5,9 @@ import { DomainException } from '@/commons/interfaces/domain.exception';
 interface ProductProps {
   name: string;
   susep: string;
-  endDateToBuy: Date;
-  minFirstContribuition: number;
-  minExtraContribuition: number;
+  endDateToHire: Date;
+  minFirstContribution: number;
+  minExtraContribution: number;
   minAgeForContract: number;
   minAgeForBenefit: number;
   firstWithdrawalPeriod: number;
@@ -23,16 +23,16 @@ export class ProductEntity extends BaseEntity<ProductProps> {
     return this.props.susep;
   }
 
-  get endDateToBuy(): Date {
-    return this.props.endDateToBuy;
+  get endDateToHire(): Date {
+    return this.props.endDateToHire;
   }
 
-  get minFirstContribuition(): number {
-    return this.props.minFirstContribuition;
+  get minFirstContribution(): number {
+    return this.props.minFirstContribution;
   }
 
-  get minExtraContribuition(): number {
-    return this.props.minExtraContribuition;
+  get minExtraContribution(): number {
+    return this.props.minExtraContribution;
   }
 
   get minAgeForContract(): number {
@@ -60,7 +60,7 @@ export class ProductEntity extends BaseEntity<ProductProps> {
       );
     }
 
-    if (props.endDateToBuy.getTime() < Date.now()) {
+    if (props.endDateToHire.getTime() < Date.now()) {
       return left(new DomainException('Product is not available'));
     }
 
