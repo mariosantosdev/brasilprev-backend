@@ -23,13 +23,13 @@ export class PlanMapper {
   }
 
   static toDomain(raw: PlanWithProductAndClient): PlanEntity {
-    const productOrError = ProductEntity.create(raw.product);
+    const productOrError = ProductEntity.create(raw.product, raw.productId);
 
     if (productOrError.isLeft()) {
       throw new Error(productOrError.value.message);
     }
 
-    const clientOrError = ClientEntity.create(raw.client);
+    const clientOrError = ClientEntity.create(raw.client, raw.clientId);
 
     if (clientOrError.isLeft()) {
       throw new Error(clientOrError.value.message);
