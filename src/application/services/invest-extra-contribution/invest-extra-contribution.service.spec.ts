@@ -28,6 +28,7 @@ describe('InvestExtraContributionService', () => {
 
   it('should invest extra contribution', async () => {
     const plan = makePlanFactory();
+    const initialBalance = plan.balance;
 
     await repository.create(plan);
 
@@ -41,7 +42,7 @@ describe('InvestExtraContributionService', () => {
 
     const updatedPlan = await repository.findById(plan.id);
 
-    expect(updatedPlan.balance).toBe(100);
+    expect(updatedPlan.balance).toBe(initialBalance + 100);
   });
 
   it('should not invest extra contribution in an invalid plan', async () => {

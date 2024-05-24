@@ -157,7 +157,7 @@ export class PlanEntity extends BaseEntity<PlanProps> {
     id?: string,
   ): Either<DomainException, PlanEntity> {
     const data: PlanProps = {
-      balance: 0,
+      balance: props.firstContribution,
       lastWithdrawal: null,
       ...props,
     };

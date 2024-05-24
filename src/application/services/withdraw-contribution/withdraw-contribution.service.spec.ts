@@ -37,6 +37,8 @@ describe('WithdrawContributionService', () => {
 
     plan.deposit(100);
 
+    const initialBalance = plan.balance;
+
     await repository.create(plan);
 
     const result = await service.execute({
@@ -48,7 +50,7 @@ describe('WithdrawContributionService', () => {
 
     const updatedPlan = await repository.findById(plan.id);
 
-    expect(updatedPlan.balance).toBe(50);
+    expect(updatedPlan.balance).toBe(initialBalance - 50);
   });
 
   it('should not withdraw a contribution from invalid plan', async () => {
