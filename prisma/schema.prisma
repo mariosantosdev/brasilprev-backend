@@ -1,0 +1,57 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Client {
+    id            String   @id @default(uuid())
+    name          String
+    email         String
+    cpf           String
+    birthDate     DateTime @map("birth_date")
+    gender        String
+    monthlyIncome Float    @map("monthly_income")
+    Plan          Plan[]
+
+    @@unique([cpf, email])
+    @@index([cpf, email])
+    @@map("clients")
+}
+
+model Product {
+    id                    String   @id @default(uuid())
+    name                  String
+    susep                 String
+    endDateToHire         DateTime @map("end_date_to_hire")
+    minFirstContribution  Float    @map("min_first_contribution")
+    minExtraContribution  Float    @map("min_extra_contribution")
+    minAgeForContract     Int      @map("min_age_for_contract")
+    minAgeForBenefit      Int      @map("min_age_for_benefit")
+    firstWithdrawalPeriod Int      @map("first_withdrawal_period")
+    withdrawalPeriod      Int      @map("withdrawal_period")
+    Plan                  Plan[]
+
+    @@unique([susep])
+    @@index([susep])
+    @@map("products")
+}
+
+model Plan {
+    id                String   @id @default(uuid())
+    product           Product  @relation(fields: [productId], references: [id])
+    productId         String
+    client            Client   @relation(fields: [clientId], references: [id])
+    clientId          String
+    firstContribution Float    @map("first_contribution")
+    hiredAt           DateTime @map("hired_at")
+    ageForRetirement  Int      @map("age_for_retirement")
+    lastWithdrawalAt  DateTime @map("last_withdrawal_at")
+    balance           Float
+
+    @@index([productId, clientId])
+    @@map("plans")
+}

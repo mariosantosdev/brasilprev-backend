@@ -6,9 +6,10 @@ import { RegisterProductService } from './application/services/register-product/
 import { HirePlanService } from './application/services/hire-plan/hire-plan.service';
 import { InvestExtraContributionService } from './application/services/invest-extra-contribution/invest-extra-contribution.service';
 import { WithdrawContributionService } from './application/services/withdraw-contribution/withdraw-contribution.service';
+import { DatabaseModule } from './infra/database/database.module';
 
 @Module({
-  imports: [],
+  imports: [DatabaseModule],
   controllers: [HelloWorldController],
   providers: [
     HelloWorldService,
