@@ -92,4 +92,33 @@ describe('PlanEntity', () => {
 
     expect(result.isLeft()).toBeTruthy();
   });
+
+  it('should deposit a value', () => {
+    const planOrError = PlanEntity.create(basePlan);
+
+    const plan = planOrError.value as PlanEntity;
+
+    const deposited = plan.deposit(100);
+
+    expect(deposited.isRight()).toBeTruthy();
+
+    expect(plan.balance).toBe(100);
+  });
+
+  it('should not deposit a value lesser than minium', () => {
+    const planOrError = PlanEntity.create(basePlan);
+
+    const plan = planOrError.value as PlanEntity;
+
+    const deposited = plan.deposit(plan.product.minExtraContribution - 1);
+
+    expect(deposited.isLeft()).toBeTruthy();
+
+    if (deposited.isLeft())
+      expect(deposited.value.message).toContain(
+        'Contribution must be greater than',
+      );
+
+    expect(plan.balance).toBe(0);
+  });
 });

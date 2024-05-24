@@ -3,6 +3,7 @@ import { Either, left, right } from '@/commons/either';
 import { DomainException } from '@/commons/interfaces/domain.exception';
 import { ProductEntity } from './product.entity';
 import { ClientEntity } from './client.entity';
+import { BadRequestException } from '../exceptions/bad-request.exception';
 
 interface PlanProps {
   productId: string;
@@ -19,6 +20,21 @@ interface PlanProps {
 type CreatePlanProps = Omit<PlanProps, 'balance' | 'lastWithdrawal'>;
 
 export class PlanEntity extends BaseEntity<PlanProps> {
+  public deposit(amount: number): Either<DomainException, true> {
+    if (amount <= this.product.minExtraContribution) {
+      const minExtraContribution = this.product.minExtraContribution;
+      return left(
+        new BadRequestException(
+          `Contribution must be greater than ${minExtraContribution}`,
+        ),
+      );
+    }
+
+    this.props.balance += amount;
+
+    return right(true);
+  }
+
   get productId(): string {
     return this.props.productId;
   }
