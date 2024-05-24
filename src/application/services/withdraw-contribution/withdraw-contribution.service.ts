@@ -26,6 +26,8 @@ export class WithdrawContributionService {
 
     if (withdrawn.isLeft()) return left(withdrawn.value);
 
-    return right(null);
+    await this.planRepository.update(plan);
+
+    return right(plan);
   }
 }
