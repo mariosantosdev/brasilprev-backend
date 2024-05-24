@@ -95,7 +95,10 @@ describe('PlanEntity', () => {
   });
 
   it('should deposit a value', () => {
-    const planOrError = PlanEntity.create(basePlan);
+    const planOrError = PlanEntity.create({
+      ...basePlan,
+      product: makeProductFactory({ minExtraContribution: 100 }),
+    });
 
     const plan = planOrError.value as PlanEntity;
 
@@ -117,7 +120,7 @@ describe('PlanEntity', () => {
 
     if (deposited.isLeft())
       expect(deposited.value.message).toContain(
-        'Contribution must be greater than',
+        'Contribution must be at least equals to',
       );
 
     expect(plan.balance).toBe(0);

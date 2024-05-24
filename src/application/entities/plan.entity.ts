@@ -25,11 +25,11 @@ type CreatePlanProps = Omit<PlanProps, 'balance' | 'lastWithdrawal'>;
 
 export class PlanEntity extends BaseEntity<PlanProps> {
   public deposit(amount: number): Either<DomainException, true> {
-    if (amount <= this.product.minExtraContribution) {
+    if (amount < this.product.minExtraContribution) {
       const minExtraContribution = this.product.minExtraContribution;
       return left(
         new BadRequestException(
-          `Contribution must be greater than ${minExtraContribution}`,
+          `Contribution must be at least equals to ${minExtraContribution}`,
         ),
       );
     }
