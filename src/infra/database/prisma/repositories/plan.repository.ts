@@ -38,17 +38,16 @@ export class PrismaPlanRepository implements PlanRepository {
   }
 
   async create(entity: PlanEntity): Promise<PlanEntity> {
-    const data = PlanMapper.toPrisma(entity);
-
-    await this.prisma.plan.create({ data });
+    await this.prisma.plan.create({ data: PlanMapper.toPrisma(entity) });
 
     return entity;
   }
 
   async update(entity: PlanEntity): Promise<PlanEntity> {
-    const data = PlanMapper.toPrisma(entity);
-
-    await this.prisma.plan.update({ data, where: { id: entity.id } });
+    await this.prisma.plan.update({
+      data: PlanMapper.toPrisma(entity),
+      where: { id: entity.id },
+    });
 
     return entity;
   }
