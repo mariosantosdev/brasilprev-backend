@@ -6,7 +6,7 @@ services:
       context: ./
       target: deps
       dockerfile: Dockerfile
-    entrypoint: ["npm", "run", "start:dev"]
+    command: npm run migrate:deploy && npm run start:dev
     env_file:
       - .env
     environment:

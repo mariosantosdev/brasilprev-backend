@@ -30,4 +30,4 @@ WORKDIR /app
 COPY --from=production-deps /app/node_modules /app/node_modules
 COPY --from=build /app/dist /app
 EXPOSE 3000
-CMD ["node", "src/main"]
+CMD ["npm", "run", "start:migrate:prod"]
