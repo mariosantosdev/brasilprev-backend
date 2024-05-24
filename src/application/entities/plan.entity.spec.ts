@@ -47,7 +47,8 @@ describe('PlanEntity', () => {
     const client = makeClientFactory({
       birthDate: faker.date.birthdate({
         mode: 'age',
-        max: product.minAgeForContract - 1,
+        min: 10,
+        max: product.minAgeForContract - 2,
       }),
     });
 
