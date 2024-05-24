@@ -4,6 +4,7 @@ import { HelloWorldService } from './services/hello-world/hello-world.service';
 import { RegisterClientService } from './application/services/register-client/register-client.service';
 import { RegisterProductService } from './application/services/register-product/register-product.service';
 import { HirePlanService } from './application/services/hire-plan/hire-plan.service';
+import { InvestExtraContributionService } from './application/services/invest-extra-contribution/invest-extra-contribution.service';
 
 @Module({
   imports: [],
@@ -13,6 +14,7 @@ import { HirePlanService } from './application/services/hire-plan/hire-plan.serv
     RegisterClientService,
     RegisterProductService,
     HirePlanService,
+    InvestExtraContributionService,
   ],
 })
 export class AppModule {}
