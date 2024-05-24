@@ -32,7 +32,7 @@ export class RegisterProductService {
 
     const productOrError = ProductEntity.create(data);
 
-    if (productOrError.isLeft()) return;
+    if (productOrError.isLeft()) return left(productOrError.value);
 
     await this.repository.create(productOrError.value);
 
