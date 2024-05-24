@@ -16,10 +16,13 @@ export class ClientMapper {
   }
 
   static toDomain(raw: Client): ClientEntity {
-    const clientOrError = ClientEntity.create({
-      ...raw,
-      cpf: cpf.format(raw.cpf),
-    });
+    const clientOrError = ClientEntity.create(
+      {
+        ...raw,
+        cpf: cpf.format(raw.cpf),
+      },
+      raw.id,
+    );
 
     if (clientOrError.isLeft()) {
       throw new Error(clientOrError.value.message);

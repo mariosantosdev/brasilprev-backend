@@ -35,11 +35,14 @@ export class PlanMapper {
       throw new Error(clientOrError.value.message);
     }
 
-    const planOrError = PlanEntity.create({
-      ...raw,
-      product: productOrError.value,
-      client: clientOrError.value,
-    });
+    const planOrError = PlanEntity.create(
+      {
+        ...raw,
+        product: productOrError.value,
+        client: clientOrError.value,
+      },
+      raw.id,
+    );
 
     if (planOrError.isLeft()) {
       throw new Error(planOrError.value.message);

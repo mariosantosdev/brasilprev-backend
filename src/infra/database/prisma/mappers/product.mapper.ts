@@ -18,7 +18,7 @@ export class ProductMapper {
   }
 
   static toDomain(raw: Product): ProductEntity {
-    const productOrError = ProductEntity.create(raw);
+    const productOrError = ProductEntity.create(raw, raw.id);
 
     if (productOrError.isLeft()) {
       throw new Error(productOrError.value.message);
