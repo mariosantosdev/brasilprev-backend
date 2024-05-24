@@ -21,7 +21,9 @@ interface PlanProps {
   balance: number;
 }
 
-type CreatePlanProps = Omit<PlanProps, 'balance' | 'lastWithdrawal'>;
+type CreatePlanProps = Omit<PlanProps, 'balance' | 'lastWithdrawal'> & {
+  balance?: number;
+};
 
 export class PlanEntity extends BaseEntity<PlanProps> {
   public deposit(amount: number): Either<DomainException, true> {
@@ -156,10 +158,12 @@ export class PlanEntity extends BaseEntity<PlanProps> {
     props: CreatePlanProps,
     id?: string,
   ): Either<DomainException, PlanEntity> {
+    const isNewPlan = !Boolean(id);
+
     const data: PlanProps = {
       lastWithdrawal: null,
       ...props,
-      balance: props.firstContribution,
+      balance: isNewPlan ? props.firstContribution : props.balance ?? 0,
     };
 
     const isValid = PlanEntity.validate(data);
