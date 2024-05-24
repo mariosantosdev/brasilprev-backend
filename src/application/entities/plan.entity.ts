@@ -44,15 +44,29 @@ export class PlanEntity extends BaseEntity<PlanProps> {
       return left(new BadRequestException('Insufficient balance.'));
     }
 
-    const waitingPeriodInDays = this.product.withdrawalPeriod;
+    const hiredAt = dayjs(this.hiredAt).utc();
+    const withdrawalPeriodInDays = this.product.firstWithdrawalPeriod;
+    const daysSinceHired = dayjs().utc().diff(hiredAt, 'days');
+
+    if (daysSinceHired < withdrawalPeriodInDays) {
+      const restDays = withdrawalPeriodInDays - daysSinceHired;
+
+      return left(
+        new BadRequestException(
+          `You must wait ${restDays} days to withdraw for the first time.`,
+        ),
+      );
+    }
+
+    const daysBetweenWithdrawals = this.product.withdrawalPeriod;
 
     const lastWithdrawalDate = dayjs(this.lastWithdrawal).utc();
     const daysSinceLastWithdrawal = dayjs()
       .utc()
       .diff(lastWithdrawalDate, 'days');
 
-    if (daysSinceLastWithdrawal < waitingPeriodInDays) {
-      const restDays = waitingPeriodInDays - daysSinceLastWithdrawal;
+    if (daysSinceLastWithdrawal < daysBetweenWithdrawals) {
+      const restDays = daysBetweenWithdrawals - daysSinceLastWithdrawal;
 
       return left(
         new BadRequestException(

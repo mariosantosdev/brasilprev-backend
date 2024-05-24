@@ -128,7 +128,10 @@ describe('PlanEntity', () => {
   });
 
   it('should withdraw a value', () => {
-    const planOrError = PlanEntity.create(basePlan);
+    const planOrError = PlanEntity.create({
+      ...basePlan,
+      product: makeProductFactory({ firstWithdrawalPeriod: 0 }),
+    });
 
     const plan = planOrError.value as PlanEntity;
 
@@ -161,8 +164,14 @@ describe('PlanEntity', () => {
     expect(plan.balance).toBe(100);
   });
 
-  it('should not withdraw before waiting period', () => {
-    const planOrError = PlanEntity.create(basePlan);
+  it('should not withdraw twice before waiting period', () => {
+    const planOrError = PlanEntity.create({
+      ...basePlan,
+      product: makeProductFactory({
+        firstWithdrawalPeriod: 0,
+        withdrawalPeriod: 30,
+      }),
+    });
 
     const plan = planOrError.value as PlanEntity;
 
@@ -175,9 +184,34 @@ describe('PlanEntity', () => {
     expect(withdrawn.isLeft()).toBeTruthy();
 
     if (withdrawn.isLeft()) {
-      expect(withdrawn.value.message).toContain('You must wait');
+      expect(withdrawn.value.message).toContain(
+        'You must wait 30 days to withdraw again.',
+      );
     }
 
     expect(plan.balance).toBe(50);
+  });
+
+  it('should not withdraw before first waiting period', () => {
+    const planOrError = PlanEntity.create({
+      ...basePlan,
+      product: makeProductFactory({ firstWithdrawalPeriod: 10 }),
+    });
+
+    const plan = planOrError.value as PlanEntity;
+
+    plan.deposit(100);
+
+    const withdrawn = plan.withdraw(50);
+
+    expect(withdrawn.isLeft()).toBeTruthy();
+
+    if (withdrawn.isLeft()) {
+      expect(withdrawn.value.message).toEqual(
+        'You must wait 10 days to withdraw for the first time.',
+      );
+    }
+
+    expect(plan.balance).toBe(100);
   });
 });

@@ -29,7 +29,10 @@ describe('WithdrawContributionService', () => {
 
   it('should withdraw a contribution', async () => {
     const plan = makePlanFactory({
-      product: makeProductFactory({ minExtraContribution: 100 }),
+      product: makeProductFactory({
+        minExtraContribution: 100,
+        firstWithdrawalPeriod: 0,
+      }),
     });
 
     plan.deposit(100);
