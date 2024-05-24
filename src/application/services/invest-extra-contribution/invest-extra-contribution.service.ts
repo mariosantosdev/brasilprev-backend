@@ -33,6 +33,6 @@ export class InvestExtraContributionService {
 
     await this.planRepository.update(plan);
 
-    return right(null);
+    return right(plan);
   }
 }

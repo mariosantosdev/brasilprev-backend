@@ -4,6 +4,7 @@ import { InMemoryPlanRepository } from '@root/test/repositories/in-memory-plan.r
 import { PlanRepository } from '@/application/repositories/plan.repository';
 import { makePlanFactory } from '@root/test/factories/make-plan.factory';
 import { ResourceNotFoundException } from '@/application/exceptions/resource-not-found.exception';
+import { PlanEntity } from '@/application/entities/plan.entity';
 
 describe('InvestExtraContributionService', () => {
   let service: InvestExtraContributionService;
@@ -39,6 +40,8 @@ describe('InvestExtraContributionService', () => {
     });
 
     expect(result.isRight()).toBeTruthy();
+
+    expect(result.value).toBeInstanceOf(PlanEntity);
 
     const updatedPlan = await repository.findById(plan.id);
 
