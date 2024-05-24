@@ -50,5 +50,5 @@ O projeto foi desenvolvido utilizando o NestJS, decidi separar os arquivos por r
 
 ## ⭐️ Funcionalidades
 - Testes unitários
-- Documentação de API Rest
+- Documentação de API Rest (http://localhost:3333/docs)
 - Arquitetura limpa (Clean Architecture) e princípios SOLID
